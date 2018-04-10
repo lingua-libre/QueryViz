@@ -1,0 +1,14 @@
+.queryviz-toggle .oo-ui-buttonElement-button, .queryviz-toggle .oo-ui-buttonElement {
+    width: 100%;
+    text-align: center;
+}
+
+.queryviz-wrap .oo-ui-progressBarWidget {
+    margin: auto;
+}
+
+.queryviz-wrap {
+	display: none;
+	border: 1px solid black;
+	padding: 20px 10px;
+}

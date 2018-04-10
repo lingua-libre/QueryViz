@@ -1,0 +1,12 @@
+{
+    "@metadata": {
+        "authors": [
+            "Antoine Lamielle"
+        ]
+    },
+    "queryviz": "The name of the extension",
+    "queryviz-desc": "{{desc|name=QueryViz|url=https://www.mediawiki.org/wiki/Extension:QueryViz}}",
+
+    "mwe-queryviz-loading": "",
+    "mwe-queryviz-nofilters": ""
+}

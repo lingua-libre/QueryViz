@@ -1,0 +1,256 @@
+( function ( mw, qv, $, OO ) {
+	const sparqlEndpoint = "https://v2.lingualibre.fr/bigdata/namespace/wdq/sparql";
+
+	var QueryViz = function( node ) {
+		var queryviz = this;
+		this.node = node;
+		this.id = node.attr( 'data' );
+		this.baseQuery = qv.config[ this.id ].query;
+		this.resultNode = node.children( '.queryviz-result' );
+		this.wrapNode = node.find( '.queryviz-wrap' );
+		this.toggleNode = node.find( '.queryviz-toggle' );
+		this.loadingNode = node.children( '.queryviz-loading' );
+
+		this.inputs = [];
+		this.labels = {};
+		this.filters = {};
+
+		// Add inputs
+		this.toggle = new OO.ui.ButtonWidget( {
+			icon: 'expand',
+			label: 'Filtres'
+		} );
+		this.toggle.on( 'click', function() {
+			if ( queryviz.toggle.getIcon() === 'expand' ) {
+				queryviz.toggle.setIcon( 'collapse' );
+				queryviz.wrapNode.show();
+				if ( queryviz.wrapNode.html() === '' ) {
+					console.log(  'a');
+					queryviz.addInputs();
+				}
+					console.log(  'b');
+			}
+			else {
+				queryviz.toggle.setIcon( 'expand' );
+				queryviz.wrapNode.hide();
+			}
+		} );
+		this.toggleNode.append( this.toggle.$element );
+
+		this.refresh();
+	};
+
+	QueryViz.prototype.addInputs = function() {
+		var queryviz = this,
+		    regex = /#extra:({.+?})? (.+)/g,
+		    process = new OO.ui.Process(),
+		    query = this.baseQuery,
+		    m;
+
+		while ( ( m = regex.exec( query ) ) !== null ) {
+		    console.log( m );
+		    // This is necessary to avoid infinite loops with zero-width matches
+		    if (m.index === regex.lastIndex) {
+		        regex.lastIndex++;
+		    }
+
+		    var input = JSON.parse( m[ 1 ] );
+		    input[ 'query' ] = m[ 2 ];
+
+		    if ( input[ 'label' ] !== undefined ) {
+		        this.labels[ input[ 'label' ] ] = input[ 'label' ];
+		    }
+
+		    if ( input[ 'filter' ] !== undefined ) {
+		        this.filters[ input[ 'filter' ] ] = [];
+		    }
+
+		    var i = this.inputs.push( input );
+		    this.baseQuery = this.baseQuery.replace( m[ 0 ], '#$' + i );
+		}
+
+		// Fetch labels
+		if ( Object.keys( this.labels ).length ) {
+		    process.next( this.getLabels.bind( this ) );
+		}
+
+		// Preload values for limited inputs
+		for ( var item in this.filters ) {
+		    process.next( this.loadFilterValues.bind( this, item ) );
+		}
+
+		// Once all data has been collected, we can create the fields
+		process.next( function() {
+			queryviz.wrapNode.html( '' );
+			if ( queryviz.inputs.length === 0 ) {
+				queryviz.wrapNode.html( '<center>' + mw.msg( 'mwe-queryviz-nofilters' ) + '</center>' )
+			}
+		} );
+		for ( var i=0; i < this.inputs.length; i++ ) {
+		    process.next( this.createField.bind( this, this.inputs[ i ] ) );
+		}
+
+		process.next( function() {
+			if ( queryviz.inputs.length > 0 ) {
+				var button = new OO.ui.ButtonWidget( {
+					label: 'Filtrer!',
+					flags: [ 'primary', 'progressive' ]
+				} );
+				button.on( 'click', queryviz.refresh.bind( queryviz ) );
+				queryviz.wrapNode.append( button.$element );
+			}
+		} );
+
+		var progressBar = new OO.ui.ProgressBarWidget( {
+			progress: false
+		} )
+		this.wrapNode.append( progressBar.$element );
+
+
+		process.execute();
+	};
+
+	QueryViz.prototype.loadFilterValues = function( item ) {
+		var queryviz = this,
+			query = 'select ?id ?idLabel where {?id prop:P2 entity:' + item + '. SERVICE wikibase:label{bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en".}}';
+
+		return this.postQuery( query ).then( function( data ) {
+		    var rows = data.results.bindings;
+		    for ( var i=0; i < rows.length; i++ ) {
+		        queryviz.filters[ item ].push( new OO.ui.MenuOptionWidget( {
+		            data: rows[ i ][ 'id' ].value.split( '/' ).pop(),
+		            label: rows[ i ][ 'idLabel' ].value
+		        } ) );
+		    }
+		} );
+	};
+
+	QueryViz.prototype.getLabels = function( query ) {
+		var queryviz = this,
+		    lang = mw.config.get( 'wgUserLanguage' ),
+		    api = new mw.Api();
+		return api.get( {
+		    action: 'wbgetentities',
+		    format: 'json',
+		    ids: Object.keys( this.labels ).join( '|' ),
+		    props: 'labels',
+		    languages: lang,
+		    languagefallback: 1
+		} ).then( function( data ) {
+		    for ( entity in data.entities ) {
+		        queryviz.labels[ entity ] = data.entities[ entity ].labels[ lang ].value;
+		    }
+		} );
+	};
+
+	QueryViz.prototype.createField = function( infos ) {
+		var field;
+
+		switch( infos.type ) {
+		    case 'wikibase-item':
+		        field = new OO.ui.CapsuleMultiselectWidget( {
+		            menu: { items: this.filters[ infos[ 'filter' ] ] }
+		        } );
+		        break;
+		    default:
+		        field = new OO.ui.TextInputWidget();
+		}
+		this.wrapNode.append( new OO.ui.FieldLayout( field, {
+		    align: 'left',
+		    label: this.labels[ infos[ 'label' ] ],
+		} ).$element );
+
+		infos[ 'field' ] = field;
+	};
+
+	QueryViz.prototype.preProcessQuery = function() {
+		var query = this.baseQuery;
+
+		for ( var i=0; i < this.inputs.length; i++ ) {
+		    if ( this.inputs[ i ].field !== undefined ) {
+		        switch( this.inputs[ i ].type ) {
+		            case 'wikibase-item':
+		                var values = this.inputs[ i ].field.getItemsData();
+		                for ( var j=0; j < values.length; j++ ) {
+		                    values[ j ] = '{' + this.inputs[ i ].query.replace( '[EXTRA]', values[ j ] ) + '}';
+		                }
+		                query = query.replace( '#$' + (i+1), values.join( ' UNION ' ) );
+		                break;
+		            default:
+		                var value = this.inputs[ i ].field.getValue();
+		                query = query.replace( '#$' + (i+1), this.inputs[ i ].query.replace( '[EXTRA]', value ) );
+		        }
+		    }
+		}
+
+		return query;
+	};
+
+	QueryViz.prototype.postQuery = function( query ) {
+		query = query.replace(/\u00A0/g, ' ').replace( '[AUTO_LANGUAGE]', mw.config.get( 'wgUserLanguage' ) );
+		return $.post( sparqlEndpoint, { format: 'json', query: query } );
+	};
+
+	QueryViz.prototype.refresh = function() {
+		var queryviz = this,
+		    query = this.preProcessQuery();
+
+		this.loadingNode.show();
+		this.postQuery( query ).then( function( data ) {
+		    var table = queryviz.dataToTable( data.head.vars, data.results.bindings );
+		    queryviz.resultNode.html( table );
+		    queryviz.loadingNode.hide();
+		} ).fail( function( data ) {
+		    console.log( data.responseText );
+		    //TODO: manage errors
+		} );
+	};
+
+	QueryViz.prototype.dataToTable = function( headList, bodyList ) {
+		var order = [],
+		    theadTr = $( '<tr>' ),
+		    thead = $( '<thead>' ).append( theadTr ),
+		    tbody = $( '<tbody>' ),
+		    table = $( '<table>' )
+		.addClass( 'wikitable sortable' )
+		.append( thead ).append( tbody );
+
+		for ( var i = 0; i < headList.length; i++ ) {
+			var label = headList[ i ];
+
+			if ( qv.config[ this.id ].labels[ label.toLowerCase() ] !== undefined ) {
+				label = qv.config[ this.id ].labels[ label.toLowerCase() ];
+			}
+
+		    theadTr.append( $( '<th>' ).text( label ) );
+		    order.push( headList[ i ] );
+		}
+
+		for ( var i=0; i < bodyList.length; i++ ) {
+		    var tr = $( '<tr>' ).appendTo( tbody );
+
+		    for ( var j=0; j < order.length; j++ ) {
+		        var cell = bodyList[ i ][ order[ j ] ];
+		        if ( cell.type === 'uri' ) {
+		            cell.value = $( '<a>' )
+		                .attr( 'href', cell.value )
+		                .text( cell.value.split( '/' ).pop() );
+		        }
+		        tr.append( $( '<td>' ).html( cell.value ) );
+		    }
+		}
+
+		table.tablesorter();
+
+		return table;
+	}
+
+
+
+	$( '.queryviz' ).each( function() {
+	    window.queryviz = new QueryViz( $( this ) );
+	} );
+
+
+
+}( mediaWiki, mediaWiki.queryViz, jQuery, OO ) );

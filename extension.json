@@ -1,0 +1,53 @@
+{
+    "name": "QueryViz",
+    "version": "0.1.0",
+    "author": [
+        "Antoine Lamielle"
+    ],
+    "url": "https://www.mediawiki.org/wiki/Extension:QueryViz",
+    "namemsg": "queryviz",
+    "descriptionmsg": "queryviz-desc",
+    "license-name": "GPL-2.0+",
+    "type": "other",
+    "manifest_version": 1,
+    "MessagesDirs": {
+        "QueryViz": [
+            "i18n"
+        ]
+    },
+    "AutoloadClasses": {
+        "QueryViz\\Hooks": "Hooks.php",
+        "QueryViz\\TagHandler": "includes/TagHandler.php"
+    },
+    "ResourceModules": {
+        "ext.queryviz": {
+            "scripts": [
+                "ext.queryViz.js",
+                "ext.queryViz.QueryViz.js"
+            ],
+            "messages": [
+				"mwe-queryviz-loading",
+				"mwe-queryviz-nofilters"
+            ],
+            "dependencies": [
+				"jquery.tablesorter",
+				"oojs-ui",
+				"ext.queryviz.style"
+            ]
+        },
+        "ext.queryviz.style": {
+            "styles": [
+                "ext.queryViz.css"
+            ]
+        }
+    },
+    "ResourceFileModulePaths": {
+        "localBasePath": "modules",
+        "remoteExtPath": "QueryViz/modules"
+    },
+    "Hooks": {
+        "ParserFirstCallInit": [
+            "QueryViz\\Hooks::onParserFirstCallInit"
+        ]
+    }
+}
