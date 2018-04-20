@@ -12,3 +12,8 @@
 	border: 1px solid black;
 	padding: 20px 10px;
 }
+
+.queryviz-toggle .oo-ui-buttonElement-button .oo-ui-iconElement-icon {
+	left: unset !important;
+	right: 0.46875em;
+}
