@@ -188,6 +188,7 @@
 
 	QueryViz.prototype.postQuery = function( query ) {
 		query = query.replace(/\u00A0/g, ' ').replace( '[AUTO_LANGUAGE]', mw.config.get( 'wgUserLanguage' ) );
+		console.log( query );
 		return $.post( sparqlEndpoint, { format: 'json', query: query } );
 	};
 
@@ -231,12 +232,17 @@
 
 		    for ( var j=0; j < order.length; j++ ) {
 		        var cell = bodyList[ i ][ order[ j ] ];
-		        if ( cell.type === 'uri' ) {
-		            cell.value = $( '<a>' )
-		                .attr( 'href', cell.value )
-		                .text( cell.value.split( '/' ).pop() );
+		        if ( cell === undefined ) {
+		        	tr.append( $( '<td>' ).html( '' ) );
 		        }
-		        tr.append( $( '<td>' ).html( cell.value ) );
+		        else {
+				    if ( cell.type === 'uri' ) {
+				        cell.value = $( '<a>' )
+				            .attr( 'href', cell.value )
+				            .text( cell.value.split( '/' ).pop() );
+				    }
+				    tr.append( $( '<td>' ).html( cell.value ) );
+				}
 		    }
 		}
 
