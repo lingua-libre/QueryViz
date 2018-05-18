@@ -1,5 +1,5 @@
 ( function ( mw, qv, $, OO ) {
-	const sparqlEndpoint = "https://v2.lingualibre.fr/bigdata/namespace/wdq/sparql";
+	const sparqlEndpoint = "https://lingualibre.fr/bigdata/namespace/wdq/sparql";
 
 	var QueryViz = function( node ) {
 		var queryviz = this;
@@ -152,6 +152,9 @@
 		            menu: { items: this.filters[ infos[ 'filter' ] ] }
 		        } );
 		        break;
+		    case 'wikidata':
+		        field = new qv.WikidataSearchWidget();
+		        break;
 		    default:
 		        field = new OO.ui.TextInputWidget();
 		}
@@ -176,9 +179,17 @@
 		                }
 		                query = query.replace( '#$' + (i+1), values.join( ' UNION ' ) );
 		                break;
+		            case 'wikidata':
+		                var value = this.inputs[ i ].field.getData();
+		                if ( value !== undefined ) {
+		                	query = query.replace( '#$' + (i+1), this.inputs[ i ].query.replace( '[EXTRA]', value ) );
+		                }
+		                break;
 		            default:
 		                var value = this.inputs[ i ].field.getValue();
-		                query = query.replace( '#$' + (i+1), this.inputs[ i ].query.replace( '[EXTRA]', value ) );
+		                if ( value !== '' ) {
+		                	query = query.replace( '#$' + (i+1), this.inputs[ i ].query.replace( '[EXTRA]', value ) );
+		                }
 		        }
 		    }
 		}

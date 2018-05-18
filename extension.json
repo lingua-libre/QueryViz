@@ -23,6 +23,7 @@
         "ext.queryviz": {
             "scripts": [
                 "ext.queryViz.js",
+                "ext.queryViz.WikidataSearchWidget.js",
                 "ext.queryViz.QueryViz.js"
             ],
             "messages": [
@@ -32,8 +33,20 @@
             "dependencies": [
 				"jquery.tablesorter",
 				"oojs-ui",
+				"mediawiki.widgets",
+				"mediawiki.ForeignApi",
 				"ext.queryviz.style"
             ]
+        },
+        "ext.queryviz.leaflet": {
+            "scripts": [
+                "leaflet/leaflet.js"
+            ],
+            "styles": [
+                "leaflet/leaflet.css"
+            ],
+		    "localBasePath": "lib",
+		    "remoteExtPath": "QueryViz/lib"
         },
         "ext.queryviz.style": {
             "styles": [
