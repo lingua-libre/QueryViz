@@ -1,5 +1,5 @@
 ( function ( mw, qv, $, OO ) {
-	const sparqlEndpoint = "https://lingualibre.fr/bigdata/namespace/wdq/sparql";
+	const sparqlEndpoint = mw.config.get( 'QueryVizEndpoint' );//"https://lingualibre.fr/bigdata/namespace/wdq/sparql";
 
 	var QueryViz = function( node ) {
 		var queryviz = this;

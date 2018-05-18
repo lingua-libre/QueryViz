@@ -23,6 +23,8 @@ class TagHandler {
 	 * @return string
 	 */
 	public static function handle( $input, array $args, Parser $parser, PPFrame $frame ) {
+		global $wgQueryVizEndpoint;
+
 		static $tagCount = 0;
 		static $jsConfigVars = [];
 		if ( $input == null ) {
@@ -40,7 +42,10 @@ class TagHandler {
 		);
 		$jsConfigVars[] = $config;
 
-		$output->addJsConfigVars( [ 'QueryViz' => $jsConfigVars ] );
+		$output->addJsConfigVars( [
+			'QueryViz' => $jsConfigVars,
+			'QueryVizEndpoint' => $wgQueryVizEndpoint
+		] );
 
 		return '<div class="queryviz" data="' . $index . '">
 					<div class="queryviz-toggle"></div>
