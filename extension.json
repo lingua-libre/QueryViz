@@ -36,6 +36,7 @@
             "dependencies": [
 				"jquery.tablesorter",
 				"oojs-ui",
+				"oojs-ui.styles.icons-media",
 				"mediawiki.widgets",
 				"mediawiki.ForeignApi",
 				"ext.queryviz.style"

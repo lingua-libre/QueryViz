@@ -218,6 +218,20 @@
 		} );
 	};
 
+	QueryViz.prototype.playButton = function( audioUrl ) {
+		var button = new OO.ui.ButtonWidget( {
+			framed: false,
+			icon: 'play',
+			title: 'play'
+		} );
+		button.on( 'click', function() {
+			var audio = new Audio( audioUrl );
+			audio.play();
+		} );
+
+		return button.$element;
+	};
+
 	QueryViz.prototype.dataToTable = function( headList, bodyList ) {
 		var order = [],
 		    theadTr = $( '<tr>' ),
@@ -248,9 +262,14 @@
 		        }
 		        else {
 				    if ( cell.type === 'uri' ) {
-				        cell.value = $( '<a>' )
-				            .attr( 'href', cell.value )
-				            .text( cell.value.split( '/' ).pop() );
+				    	if ( cell.value.lastIndexOf( 'http://commons.wikimedia.org/', 0 ) === 0 ) {
+				    		cell.value = this.playButton( cell.value );
+				    	}
+				    	else {
+						    cell.value = $( '<a>' )
+						        .attr( 'href', cell.value )
+						        .text( cell.value.split( '/' ).pop() );
+				        }
 				    }
 				    tr.append( $( '<td>' ).html( cell.value ) );
 				}
