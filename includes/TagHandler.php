@@ -38,7 +38,7 @@ class TagHandler {
 
 		$config = array(
 			'query' => $input,
-			'labels' => $args,
+			'columnMap' => $args,
 		);
 		$jsConfigVars[] = $config;
 

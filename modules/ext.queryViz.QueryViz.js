@@ -6,6 +6,7 @@
 		this.node = node;
 		this.id = node.attr( 'data' );
 		this.baseQuery = qv.config[ this.id ].query;
+		this.columnMap = qv.config[ this.id ].columnMap;
 		this.resultNode = node.children( '.queryviz-result' );
 		this.wrapNode = node.find( '.queryviz-wrap' );
 		this.toggleNode = node.find( '.queryviz-toggle' );
@@ -244,8 +245,8 @@
 		for ( var i = 0; i < headList.length; i++ ) {
 			var label = headList[ i ];
 
-			if ( qv.config[ this.id ].labels[ label.toLowerCase() ] !== undefined ) {
-				label = qv.config[ this.id ].labels[ label.toLowerCase() ];
+			if ( this.columnMap[ label.toLowerCase() ] !== undefined ) {
+				label = this.columnMap[ label.toLowerCase() ];
 			}
 
 		    theadTr.append( $( '<th>' ).text( label ) );
