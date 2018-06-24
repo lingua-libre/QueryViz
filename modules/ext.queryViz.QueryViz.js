@@ -7,6 +7,7 @@
 		this.id = node.attr( 'data' );
 		this.baseQuery = qv.config[ this.id ].query;
 		this.columnMap = qv.config[ this.id ].columnMap;
+		this.pagination = Number( qv.config[ this.id ].pagination );
 		this.resultNode = node.children( '.queryviz-result' );
 		this.wrapNode = node.find( '.queryviz-wrap' );
 		this.toggleNode = node.find( '.queryviz-toggle' );
@@ -234,16 +235,22 @@
 	};
 
 	QueryViz.prototype.dataToTable = function( headList, bodyList ) {
-		var order = [],
+		var i, j, label, tr, trs,
+			queryviz = this,
+			order = [],
 		    theadTr = $( '<tr>' ),
 		    thead = $( '<thead>' ).append( theadTr ),
 		    tbody = $( '<tbody>' ),
 		    table = $( '<table>' )
-		.addClass( 'wikitable sortable' )
-		.append( thead ).append( tbody );
+				.addClass( 'wikitable sortable' )
+				.append( thead ).append( tbody ),
+			pagination = $( '<ul>' ),
+			container = $( '<div>' )
+				.append( table )
+				.append( pagination );
 
-		for ( var i = 0; i < headList.length; i++ ) {
-			var label = headList[ i ];
+		for ( i = 0; i < headList.length; i++ ) {
+			label = headList[ i ];
 
 			if ( this.columnMap[ label.toLowerCase() ] !== undefined ) {
 				label = this.columnMap[ label.toLowerCase() ];
@@ -253,10 +260,10 @@
 		    order.push( headList[ i ] );
 		}
 
-		for ( var i=0; i < bodyList.length; i++ ) {
-		    var tr = $( '<tr>' ).appendTo( tbody );
+		for ( i = 0; i < bodyList.length; i++ ) {
+		    tr = $( '<tr>' ).appendTo( tbody );
 
-		    for ( var j=0; j < order.length; j++ ) {
+		    for ( j = 0; j < order.length; j++ ) {
 		        var cell = bodyList[ i ][ order[ j ] ];
 		        if ( cell === undefined ) {
 		        	tr.append( $( '<td>' ).html( '' ) );
@@ -279,7 +286,32 @@
 
 		table.tablesorter();
 
-		return table;
+		if ( this.pagination > 0 ) {
+			trs = tbody.children( 'tr' );
+
+			pagination.twbsPagination({
+				totalPages: Math.ceil( trs.length / this.pagination ),
+				visiblePages: 7,
+				first: '«',
+				prev: '<',
+				next: '>',
+				last: '»',
+				activeClass: 'current',
+				onPageClick: function (event, page) {
+					//fetch content and render here
+					trs.hide();
+					trs.slice( queryviz.pagination * ( page - 1 ), queryviz.pagination * page).fadeIn( 200 );
+					console.log( trs.slice( queryviz.pagination * ( page - 1 ), queryviz.pagination * page) )
+				}
+			});
+
+			table.on( 'sortEnd.tablesorter', function() {
+				trs = tbody.children( 'tr' );
+				pagination.twbsPagination( 'show', 1 );
+			} );
+		}
+
+		return container;
 	}
 
 

@@ -36,9 +36,16 @@ class TagHandler {
 		$output->addModuleStyles( 'ext.queryviz.style' );
 		$output->addModules( 'ext.queryviz' );
 
+		$pagination = 0;
+		if ( array_key_exists( '_pagination', $args ) ) {
+			$pagination = $args[ '_pagination' ];
+			unset( $args[ '_pagination' ] );
+		}
+
 		$config = array(
 			'query' => $input,
 			'columnMap' => $args,
+			'pagination' => $pagination,
 		);
 		$jsConfigVars[] = $config;
 

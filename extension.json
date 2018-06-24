@@ -35,6 +35,7 @@
             ],
             "dependencies": [
 				"jquery.tablesorter",
+				"jquery.pagination",
 				"oojs-ui",
 				"oojs-ui.styles.icons-media",
 				"mediawiki.widgets",
@@ -48,6 +49,13 @@
             ],
             "styles": [
                 "leaflet/leaflet.css"
+            ],
+		    "localBasePath": "lib",
+		    "remoteExtPath": "QueryViz/lib"
+        },
+        "jquery.pagination": {
+            "scripts": [
+                "jquery.twbsPagination.min.js"
             ],
 		    "localBasePath": "lib",
 		    "remoteExtPath": "QueryViz/lib"

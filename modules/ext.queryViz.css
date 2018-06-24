@@ -17,3 +17,13 @@
 	left: unset !important;
 	right: 0.46875em;
 }
+
+.queryviz-result ul.pagination {
+	text-align: center;
+	box-sizing: border-box;
+}
+
+.queryviz-result ul.pagination li {
+    display: inline-block;
+    float: none;
+}
