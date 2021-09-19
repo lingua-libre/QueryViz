@@ -8,5 +8,5 @@
     "queryviz-desc": "Fetch and display sparql queries result inside a wiki page.",
 
     "mwe-queryviz-loading": "... Loading ...",
-    "mwe-queryviz-nofilters": "Aucun filtre disponible."
+    "mwe-queryviz-nofilters": "No filter available."
 }
