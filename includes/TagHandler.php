@@ -59,7 +59,7 @@ class TagHandler {
 					<div class="queryviz-wrap"></div>
 					<div class="queryviz-result"></div>
 					<div class="queryviz-loading">
-						<center>' . wfMessage( 'mwe-queryviz-loading' )->text() . '</center>
+						<center><img src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Balls.gif" width="50" /></center>
 					</div>
 				</div>';
 	}
