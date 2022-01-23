@@ -20,6 +20,7 @@ class Hooks {
 	 * @return bool
 	 */
 	public static function onParserFirstCallInit( Parser $parser ) {
+		/* Attach to html element `<query>` the code defined in TagHandler.php   */
 		$parser->setHook( 'query', 'QueryViz\TagHandler::handle' );
 		return true;
 	}
