@@ -8,12 +8,12 @@ _To complete_
 _To complete_
 
 ## Structure
-- [`/operations`](https://github.com/lingua-libre/operations/) : LinguaLibre set up repository, defines `QueryVizEndpoint`.
-  - /mediawiki-config/LocalSettings.php](https://github.com/lingua-libre/operations/blob/master/mediawiki-config/LocalSettings.php):
+- [`/operations`](https://github.com/lingua-libre/operations/) : LinguaLibre set up repository.
+  - [`/mediawiki-config/LocalSettings.php`](https://github.com/lingua-libre/operations/blob/master/mediawiki-config/LocalSettings.php): defines `QueryVizEndpoint`.
 - QueryViz: 
-  - `Hooks.php` : parse page, call upon <query> the function TagHandler.php .
+  - `/Hooks.php` : parse page, call upon <query> the function TagHandler.php .
   - `/includes/TagHandler.php` : load config, inject queryviz base html with empty loading element.
-  - `/modules/ext.queryViz.QueryViz.js`: main code, call the data, built, inject the html table.
+  - `/modules/ext.queryViz.QueryViz.js` : call the sparql, received data, built and inject corresponding html table.
 
 ## Example
 Used in [LinguaLibre:Stats](https://lingualibre.org/wiki/LinguaLibre:Stats)
