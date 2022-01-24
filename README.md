@@ -15,5 +15,5 @@ _To complete_
   - `/includes/TagHandler.php` : load config, inject queryviz base html with empty loading element.
   - `/modules/ext.queryViz.QueryViz.js` : call the sparql, received data, built and inject corresponding html table.
 
-## Example
-Used in [LinguaLibre:Stats](https://lingualibre.org/wiki/LinguaLibre:Stats)
+## Demo
+See [LinguaLibre:Stats](https://lingualibre.org/wiki/LinguaLibre:Stats), [Help:SPARQL](https://lingualibre.org/wiki/Help:SPARQL), [Category:DataViz](https://lingualibre.org/wiki/Category:DataViz) and others.
