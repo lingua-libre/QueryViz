@@ -16,4 +16,4 @@ _To complete_
   - `/modules/ext.queryViz.QueryViz.js` : call the sparql, received data, built and inject corresponding html table.
 
 ## Demo
-See [LinguaLibre:Stats](https://lingualibre.org/wiki/LinguaLibre:Stats), [Help:SPARQL](https://lingualibre.org/wiki/Help:SPARQL), [Category:DataViz](https://lingualibre.org/wiki/Category:DataViz) and others.
+See examples of use on LinguaLibre website: [LinguaLibre:Stats](https://lingualibre.org/wiki/LinguaLibre:Stats), [Help:SPARQL](https://lingualibre.org/wiki/Help:SPARQL), [Category:DataViz](https://lingualibre.org/wiki/Category:Lingua_Libre:DataViz)
