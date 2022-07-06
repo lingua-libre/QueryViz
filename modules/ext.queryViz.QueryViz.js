@@ -205,28 +205,32 @@
 		console.log( query );
 				
 		// According to query settings, switch sparql query endpoint
-		// If query includes "#defaultEndpoint:Wikidata" -> Wikidata
-		// If query includes "#defaultEndpoint:Commons" -> Commons
-		// Else : Lingualibre
+		// If query includes "#defaultEndpoint:Wikidata" -> Wikidata, via xhr `get`
+		// If query includes "#defaultEndpoint:Commons" -> Commons, via xhr `get`
+		// Else : Lingualibre, via xhr `post`
+		var customEndpoint = sparqlEndpoint; 
 		switch (true) {
 		  case query.includes('#defaultEndpoint:Wikidata'):
-		    console.log('SPARQL query service: Wikidata')
-		    sparqlEndpoint = 'https://query.wikidata.org/sparql' // with xhr js GET
+		    console.log('SPARQL query service: Wikidata');
+		    customEndpoint = 'https://query.wikidata.org/sparql';
 		    break;
 		  case query.includes('#defaultEndpoint:Commons'):
-		    console.log('SPARQL query service: Commons')
-		    sparqlEndpoint = 'https://commons-query.wikimedia.org/sparql' // with xhr js GET
+		    console.log('SPARQL query service: Commons');
+		    customEndpoint = 'https://commons-query.wikimedia.org/sparql';
 		    break;
-		  default:
+		  case query.includes('#defaultEndpoint:Lingua'):
 		    console.log('SPARQL query service: Lingualibre');
-		    sparqlEndpoint = 'https://lingualibre.org/bigdata/namespace/wdq/sparql' // with xhr js POST
+		    customEndpoint = 'https://lingualibre.org/bigdata/namespace/wdq/sparql';
+		  default:
+		    console.log('SPARQL query service: default, see LocalSettings.php');
+		    customEndpoint = sparqlEndpoint;
 		    break;
 		}
 		// Adapts to each service's xhr protocol : post vs get
-		if (sparqlEndpoint.includes('lingualibre')) {
-		  return $.post(sparqlEndpoint, { format: 'json', query: query });
+		if (customEndpoint.includes('lingualibre')) {
+		  return $.post(customEndpoint, { format: 'json', query: query });
 		} else {
-		  return $.get(sparqlEndpoint, { format: 'json', query: query });
+		  return $.get(customEndpoint, { format: 'json', query: query });
 		}
 	};
 
