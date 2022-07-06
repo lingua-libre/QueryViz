@@ -8,10 +8,10 @@ _To complete_
 _To complete_
 
 In `LocalSettings.php`, add : 
-```
+```php
 # Activate QueryViz extension
 wfLoadExtension( 'QueryViz' );
-$wgQueryVizEndpoint = "https://lingualibre.org/bigdata/namespace/wdq/sparql";
+$wgQueryVizEndpoint = "https://lingualibre.org/bigdata/namespace/wdq/sparql"; // Or your chosen default endpoint
 ```
 
 ## Structure
