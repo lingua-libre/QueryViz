@@ -198,11 +198,36 @@
 
 		return query;
 	};
-
+	
+	// Queries the SPARQL endpoint via xhr
 	QueryViz.prototype.postQuery = function( query ) {
 		query = query.replace(/\u00A0/g, ' ').replace( '[AUTO_LANGUAGE]', mw.config.get( 'wgUserLanguage' ) );
 		console.log( query );
-		return $.post( sparqlEndpoint, { format: 'json', query: query } );
+				
+		// According to query settings, switch sparql query endpoint
+		// If query includes "#defaultEndpoint:Wikidata" -> Wikidata
+		// If query includes "#defaultEndpoint:Commons" -> Commons
+		// Else : Lingualibre
+		switch (true) {
+		  case query.includes('#defaultEndpoint:Wikidata'):
+		    console.log('SPARQL query sercice: Wikidata')
+		    sparqlEndpoint = 'https://query.wikidata.org/sparql' // with xhr js GET
+		    break;
+		  case query.includes('#defaultEndpoint:Commons'):
+		    console.log('SPARQL query sercice: Commons')
+		    sparqlEndpoint = 'https://commons-query.wikimedia.org/sparql' // with xhr js GET
+		    break;
+		  default:
+		    console.log('SPARQL query sercice: Lingualibre');
+		    sparqlEndpoint = 'https://lingualibre.org/bigdata/namespace/wdq/sparql' // with xhr js POST
+		    break;
+		}
+		// Adapts to each service's xhr protocol : post vs get
+		if (sparqlEndpoint.includes('lingualibre')) {
+		  return $.post(sparqlEndpoint, { format: 'json', query: query });
+		} else {
+		  return $.get(sparqlEndpoint, { format: 'json', query: query });
+		}
 	};
 
 	QueryViz.prototype.refresh = function() {
