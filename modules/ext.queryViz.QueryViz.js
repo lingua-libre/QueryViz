@@ -210,15 +210,15 @@
 		// Else : Lingualibre
 		switch (true) {
 		  case query.includes('#defaultEndpoint:Wikidata'):
-		    console.log('SPARQL query sercice: Wikidata')
+		    console.log('SPARQL query service: Wikidata')
 		    sparqlEndpoint = 'https://query.wikidata.org/sparql' // with xhr js GET
 		    break;
 		  case query.includes('#defaultEndpoint:Commons'):
-		    console.log('SPARQL query sercice: Commons')
+		    console.log('SPARQL query service: Commons')
 		    sparqlEndpoint = 'https://commons-query.wikimedia.org/sparql' // with xhr js GET
 		    break;
 		  default:
-		    console.log('SPARQL query sercice: Lingualibre');
+		    console.log('SPARQL query service: Lingualibre');
 		    sparqlEndpoint = 'https://lingualibre.org/bigdata/namespace/wdq/sparql' // with xhr js POST
 		    break;
 		}
