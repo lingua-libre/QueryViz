@@ -7,6 +7,13 @@ _To complete_
 ## Installation
 _To complete_
 
+In `LocalSettings.php`, add : 
+```
+# Activate QueryViz extension
+wfLoadExtension( 'QueryViz' );
+$wgQueryVizEndpoint = "https://lingualibre.org/bigdata/namespace/wdq/sparql";
+```
+
 ## Structure
 - [`/operations`](https://github.com/lingua-libre/operations/) : LinguaLibre set up repository.
   - [`/mediawiki-config/LocalSettings.php`](https://github.com/lingua-libre/operations/blob/master/mediawiki-config/LocalSettings.php): defines `QueryVizEndpoint`.
