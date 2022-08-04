@@ -218,7 +218,7 @@
 		    console.log('SPARQL query service: Commons');
 		    customEndpoint = 'https://commons-query.wikimedia.org/sparql';
 		    break;
-		  case query.includes('#defaultEndpoint:Lingua'):
+		  case query.includes('#defaultEndpoint:Lingualibre'):
 		    console.log('SPARQL query service: Lingualibre');
 		    customEndpoint = 'https://lingualibre.org/bigdata/namespace/wdq/sparql';
 		  default:
