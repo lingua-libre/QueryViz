@@ -221,6 +221,7 @@
 		  case query.includes('#defaultEndpoint:Lingualibre'):
 		    console.log('SPARQL query service: Lingualibre');
 		    customEndpoint = 'https://lingualibre.org/bigdata/namespace/wdq/sparql';
+		    break;
 		  default:
 		    console.log('SPARQL query service: default, see LocalSettings.php');
 		    customEndpoint = sparqlEndpoint;
