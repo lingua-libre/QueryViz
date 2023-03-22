@@ -218,6 +218,10 @@
 		    console.log('SPARQL query service: Commons');
 		    customEndpoint = 'https://commons-query.wikimedia.org/sparql';
 		    break;
+		  case query.includes('#defaultEndpoint:Francophones'):
+		    console.log('SPARQL query service: Dictionnaire des Francophones');
+		    customEndpoint = 'https://www.dictionnairedesfrancophones.org/api/sparql';
+		    break;
 		  case query.includes('#defaultEndpoint:Lingualibre'):
 		    console.log('SPARQL query service: Lingualibre');
 		    customEndpoint = 'https://lingualibre.org/bigdata/namespace/wdq/sparql';
@@ -228,7 +232,7 @@
 		    break;
 		}
 		// Adapts to each service's xhr protocol : post vs get
-		if (customEndpoint.includes('lingualibre')) {
+		if (customEndpoint.includes('lingualibre') || customEndpoint.includes('francophones') ) {
 		  return $.post(customEndpoint, { format: 'json', query: query });
 		} else {
 		  return $.get(customEndpoint, { format: 'json', query: query });
