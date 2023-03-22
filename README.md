@@ -18,7 +18,7 @@ $wgQueryVizEndpoint = "https://lingualibre.org/bigdata/namespace/wdq/sparql"; //
 
 Deploy:
 1. Go to host server : login
-2. `cd /opt/mediawiki/x.xx/extensions/QueryViz # x.xx being your MediaWiki version
+2. `cd /opt/mediawiki/x.xx/extensions/QueryViz # x.xx being your MediaWiki version`
 3. `git pull`
 
 Test on live website via private windows :
