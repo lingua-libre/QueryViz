@@ -14,6 +14,17 @@ wfLoadExtension( 'QueryViz' );
 $wgQueryVizEndpoint = "https://lingualibre.org/bigdata/namespace/wdq/sparql"; // Or your chosen default endpoint
 ```
 
+## Update
+
+Deploy:
+1. Go to host server : login
+2. `cd /opt/mediawiki/x.xx/extensions/QueryViz # x.xx being your MediaWiki version
+3. `git pull`
+
+Test on live website via private windows :
+- If work : we won !
+- if breaks : roll back change `git reset --hard a0d3fe6` with the correct commit id found from Github
+
 ## Structure
 - [`/operations`](https://github.com/lingua-libre/operations/) : LinguaLibre set up repository.
   - [`/mediawiki-config/LocalSettings.php`](https://github.com/lingua-libre/operations/blob/master/mediawiki-config/LocalSettings.php): defines `QueryVizEndpoint`.
