@@ -1,3 +1,4 @@
+// WIDGET NOT FINISHED, RECOMMENDED TO HIDE IT VIA CSS
 'use strict';
 
 ( function ( mw, qv, $, OO ) {
