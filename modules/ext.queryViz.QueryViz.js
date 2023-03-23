@@ -232,7 +232,7 @@
 		    break;
 		}
 		// Adapts to each service's xhr protocol : post vs get
-		if (customEndpoint.includes('lingualibre')) {
+		if (customEndpoint.includes('lingualibre') || customEndpoint.includes('francophones')) {
 		  return $.post(customEndpoint, { format: 'json', query: query });
 		} else {
 		  return $.get(customEndpoint, { format: 'json', query: query });
