@@ -236,9 +236,9 @@
 		  return $.post(customEndpoint, { format: 'json', query: query });
 		} else if (customEndpoint.includes('francophones')) {
 		  return $.post({ url: customEndpoint, format: 'json', query: query, 
-			  dataType: 'json',
-			  'Accept': 'application/sparql-results+json,*/*;q=0.8',
-			  headers: { 'Accept': 'application/sparql-results+json,*/*;q=0.9' }
+			  // dataType: 'json',
+			  headers: { 'Accept': 'application/sparql-results+json,*/*;q=0.9' },
+			  'Accept': 'application/sparql-results+json,*/*;q=0.8'
 		  });
 		} else {
 		  return $.get(customEndpoint, { format: 'json', query: query });
