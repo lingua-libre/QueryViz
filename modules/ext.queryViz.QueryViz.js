@@ -232,8 +232,13 @@
 		    break;
 		}
 		// Adapts to each service's xhr protocol : post vs get
-		if (customEndpoint.includes('lingualibre') || customEndpoint.includes('francophones')) {
+		if (customEndpoint.includes('lingualibre')) {
 		  return $.post(customEndpoint, { format: 'json', query: query });
+		} else if (customEndpoint.includes('francophones')) {
+		  return $.post(customEndpoint, { format: 'json', query: query, 
+			  'Accept': 'application/sparql-results+json,*/*;q=0.8',
+			  headers: { 'Accept': 'application/sparql-results+json,*/*;q=0.9' }
+		  });
 		} else {
 		  return $.get(customEndpoint, { format: 'json', query: query });
 		}
