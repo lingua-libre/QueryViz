@@ -235,7 +235,8 @@
 		if (customEndpoint.includes('lingualibre')) {
 		  return $.post(customEndpoint, { format: 'json', query: query });
 		} else if (customEndpoint.includes('francophones')) {
-		  return $.post(customEndpoint, { format: 'json', query: query, 
+		  return $.post({ url: customEndpoint format: 'json', query: query, 
+			  dataType: 'json',
 			  'Accept': 'application/sparql-results+json,*/*;q=0.8',
 			  headers: { 'Accept': 'application/sparql-results+json,*/*;q=0.9' }
 		  });
