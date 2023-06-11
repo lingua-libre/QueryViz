@@ -11,7 +11,8 @@
     "url": "https://github.com/lingua-libre/QueryViz"
   },
   "bugs": {
-    "url": "https://github.com/lingua-libre/QueryViz/issues"
+    "url": "https://phabricator.wikimedia.org/tag/lingua_libre/",
+    "url_if_project_gets_popular": "https://github.com/lingua-libre/QueryViz/issues"
   },
   "devDependencies": {
     "grunt": "0.4.5",
