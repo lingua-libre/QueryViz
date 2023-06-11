@@ -44,7 +44,7 @@ Test on live website via private windows :
 
 ## Contribute
 - [Phabricator: Lingua-libre > Query service column](https://phabricator.wikimedia.org/tag/lingua_libre/) — tickets manager
-- [Github: Lingua-libre/Lingua-Libre-Bot](https://github.com/lingua-libre/Lingua-Libre-Bot) — code (python)
+- [Github: Lingua-libre/QueryViz](https://github.com/lingua-libre/QueryViz) — code (JS)
 
 ## Demo
 See examples of use on LinguaLibre website: [LinguaLibre:Stats](https://lingualibre.org/wiki/LinguaLibre:Stats), [Help:SPARQL](https://lingualibre.org/wiki/Help:SPARQL), [Category:DataViz](https://lingualibre.org/wiki/Category:Lingua_Libre:DataViz)
