@@ -43,7 +43,7 @@ Test on live website via private windows :
 ```
 
 ## Contribute
-- [Phabricator: Lingua-libre > ](https://phabricator.wikimedia.org/tag/lingua_libre/) — tickets manager
+- [Phabricator: Lingua-libre > Query service column](https://phabricator.wikimedia.org/tag/lingua_libre/) — tickets manager
 - [Github: Lingua-libre/Lingua-Libre-Bot](https://github.com/lingua-libre/Lingua-Libre-Bot) — code (python)
 
 ## Demo
