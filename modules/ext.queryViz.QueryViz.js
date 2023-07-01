@@ -232,17 +232,15 @@
 		    break;
 		}
 		// Adapts to each service's xhr protocol : post vs get
-		if (customEndpoint.includes('lingualibre')) {
-		  return $.post(customEndpoint, { format: 'json', query: query });
-		} else if (customEndpoint.includes('francophones')) {
-		  return $.post({ url: customEndpoint, format: 'json', query: query, 
-			  // dataType: 'json',
-			  headers: { 'Accept': 'application/sparql-results+json,*/*;q=0.9' },
-			  'Accept': 'application/sparql-results+json,*/*;q=0.8'
+		if (query.length > 4000) {
+		  return $.post(customEndpoint, { 
+		    format: 'json', query: query, headers: { 'Accept': 'application/sparql-results+json,*/*;q=0.9' }
 		  });
-		} else {
-		  return $.get(customEndpoint, { format: 'json', query: query });
 		}
+		
+		return $.get(customEndpoint, { 
+		  format: 'json', query: query, headers: { 'Accept': 'application/sparql-results+json,*/*;q=0.9' }
+		});
 	};
 
 	QueryViz.prototype.refresh = function() {
