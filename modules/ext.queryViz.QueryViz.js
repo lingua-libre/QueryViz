@@ -212,11 +212,11 @@
 		switch (true) {
 		  case query.includes('#defaultEndpoint:Wikidata'):
 		    console.log('SPARQL query service: Wikidata');
-		    customEndpoint = 'https://query.wikidata.org/sparql';
+		    customEndpoint =  'https://query.wikidata.org/bigdata/namespace/wdq/sparql'; //'https://query.wikidata.org/sparql';
 		    break;
 		  case query.includes('#defaultEndpoint:Commons'):
 		    console.log('SPARQL query service: Commons');
-		    customEndpoint = 'https://commons-query.wikimedia.org/sparql';
+		    customEndpoint = 'https://commons-query.wikimedia.org/bigdata/namespace/wdq/sparql'; //'https://commons-query.wikimedia.org/sparql';
 		    break;
 		  case query.includes('#defaultEndpoint:Francophones'):
 		    console.log('SPARQL query service: Dictionnaire des Francophones');
